@@ -172,6 +172,7 @@ declare global {
   const useAsyncQueue: typeof import('../../node_modules/@vueuse/core')['useAsyncQueue']
   const useAsyncState: typeof import('../../node_modules/@vueuse/core')['useAsyncState']
   const useAttrs: typeof import('../../node_modules/vue')['useAttrs']
+  const useAuthStore: typeof import('../../stores/auth')['useAuthStore']
   const useBase64: typeof import('../../node_modules/@vueuse/core')['useBase64']
   const useBattery: typeof import('../../node_modules/@vueuse/core')['useBattery']
   const useBluetooth: typeof import('../../node_modules/@vueuse/core')['useBluetooth']
@@ -577,6 +578,7 @@ declare module 'vue' {
     readonly useAsyncQueue: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useAsyncQueue']>
     readonly useAsyncState: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useAsyncState']>
     readonly useAttrs: UnwrapRef<typeof import('../../node_modules/vue')['useAttrs']>
+    readonly useAuthStore: UnwrapRef<typeof import('../../stores/auth')['useAuthStore']>
     readonly useBase64: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useBase64']>
     readonly useBattery: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useBattery']>
     readonly useBluetooth: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useBluetooth']>

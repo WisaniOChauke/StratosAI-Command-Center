@@ -23,6 +23,7 @@ interface _GlobalComponents {
     'PredictiveChart': typeof import("../components/PredictiveChart.vue")['default']
     'RevenueChart': typeof import("../components/RevenueChart.vue")['default']
     'RiskManagement': typeof import("../components/RiskManagement.vue")['default']
+    'RoleBasedAccess': typeof import("../components/RoleBasedAccess.vue")['default']
     'SkeletonLoader': typeof import("../components/SkeletonLoader.vue")['default']
     'UserSettings': typeof import("../components/UserSettings.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -60,6 +61,7 @@ interface _GlobalComponents {
     'LazyPredictiveChart': LazyComponent<typeof import("../components/PredictiveChart.vue")['default']>
     'LazyRevenueChart': LazyComponent<typeof import("../components/RevenueChart.vue")['default']>
     'LazyRiskManagement': LazyComponent<typeof import("../components/RiskManagement.vue")['default']>
+    'LazyRoleBasedAccess': LazyComponent<typeof import("../components/RoleBasedAccess.vue")['default']>
     'LazySkeletonLoader': LazyComponent<typeof import("../components/SkeletonLoader.vue")['default']>
     'LazyUserSettings': LazyComponent<typeof import("../components/UserSettings.vue")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
@@ -103,6 +105,7 @@ export const KPIBuilder: typeof import("../components/KPIBuilder.vue")['default'
 export const PredictiveChart: typeof import("../components/PredictiveChart.vue")['default']
 export const RevenueChart: typeof import("../components/RevenueChart.vue")['default']
 export const RiskManagement: typeof import("../components/RiskManagement.vue")['default']
+export const RoleBasedAccess: typeof import("../components/RoleBasedAccess.vue")['default']
 export const SkeletonLoader: typeof import("../components/SkeletonLoader.vue")['default']
 export const UserSettings: typeof import("../components/UserSettings.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -140,6 +143,7 @@ export const LazyKPIBuilder: LazyComponent<typeof import("../components/KPIBuild
 export const LazyPredictiveChart: LazyComponent<typeof import("../components/PredictiveChart.vue")['default']>
 export const LazyRevenueChart: LazyComponent<typeof import("../components/RevenueChart.vue")['default']>
 export const LazyRiskManagement: LazyComponent<typeof import("../components/RiskManagement.vue")['default']>
+export const LazyRoleBasedAccess: LazyComponent<typeof import("../components/RoleBasedAccess.vue")['default']>
 export const LazySkeletonLoader: LazyComponent<typeof import("../components/SkeletonLoader.vue")['default']>
 export const LazyUserSettings: LazyComponent<typeof import("../components/UserSettings.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
