@@ -13,8 +13,18 @@ type HydrationStrategies = {
 type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
 interface _GlobalComponents {
       'AIInsightCard': typeof import("../components/AIInsightCard.vue")['default']
+    'AIInsightGenerator': typeof import("../components/AIInsightGenerator.vue")['default']
+    'AnomalyDetector': typeof import("../components/AnomalyDetector.vue")['default']
+    'CustomerJourney': typeof import("../components/CustomerJourney.vue")['default']
+    'DataExport': typeof import("../components/DataExport.vue")['default']
+    'DraggableWidget': typeof import("../components/DraggableWidget.vue")['default']
     'ExecutiveKPI': typeof import("../components/ExecutiveKPI.vue")['default']
+    'KPIBuilder': typeof import("../components/KPIBuilder.vue")['default']
+    'PredictiveChart': typeof import("../components/PredictiveChart.vue")['default']
     'RevenueChart': typeof import("../components/RevenueChart.vue")['default']
+    'RiskManagement': typeof import("../components/RiskManagement.vue")['default']
+    'SkeletonLoader': typeof import("../components/SkeletonLoader.vue")['default']
+    'UserSettings': typeof import("../components/UserSettings.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
     'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
     'NuxtErrorBoundary': typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -40,8 +50,18 @@ interface _GlobalComponents {
     'NuxtIsland': typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
     'NuxtRouteAnnouncer': typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
       'LazyAIInsightCard': LazyComponent<typeof import("../components/AIInsightCard.vue")['default']>
+    'LazyAIInsightGenerator': LazyComponent<typeof import("../components/AIInsightGenerator.vue")['default']>
+    'LazyAnomalyDetector': LazyComponent<typeof import("../components/AnomalyDetector.vue")['default']>
+    'LazyCustomerJourney': LazyComponent<typeof import("../components/CustomerJourney.vue")['default']>
+    'LazyDataExport': LazyComponent<typeof import("../components/DataExport.vue")['default']>
+    'LazyDraggableWidget': LazyComponent<typeof import("../components/DraggableWidget.vue")['default']>
     'LazyExecutiveKPI': LazyComponent<typeof import("../components/ExecutiveKPI.vue")['default']>
+    'LazyKPIBuilder': LazyComponent<typeof import("../components/KPIBuilder.vue")['default']>
+    'LazyPredictiveChart': LazyComponent<typeof import("../components/PredictiveChart.vue")['default']>
     'LazyRevenueChart': LazyComponent<typeof import("../components/RevenueChart.vue")['default']>
+    'LazyRiskManagement': LazyComponent<typeof import("../components/RiskManagement.vue")['default']>
+    'LazySkeletonLoader': LazyComponent<typeof import("../components/SkeletonLoader.vue")['default']>
+    'LazyUserSettings': LazyComponent<typeof import("../components/UserSettings.vue")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
     'LazyNuxtLayout': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
     'LazyNuxtErrorBoundary': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>
@@ -73,8 +93,18 @@ declare module 'vue' {
 }
 
 export const AIInsightCard: typeof import("../components/AIInsightCard.vue")['default']
+export const AIInsightGenerator: typeof import("../components/AIInsightGenerator.vue")['default']
+export const AnomalyDetector: typeof import("../components/AnomalyDetector.vue")['default']
+export const CustomerJourney: typeof import("../components/CustomerJourney.vue")['default']
+export const DataExport: typeof import("../components/DataExport.vue")['default']
+export const DraggableWidget: typeof import("../components/DraggableWidget.vue")['default']
 export const ExecutiveKPI: typeof import("../components/ExecutiveKPI.vue")['default']
+export const KPIBuilder: typeof import("../components/KPIBuilder.vue")['default']
+export const PredictiveChart: typeof import("../components/PredictiveChart.vue")['default']
 export const RevenueChart: typeof import("../components/RevenueChart.vue")['default']
+export const RiskManagement: typeof import("../components/RiskManagement.vue")['default']
+export const SkeletonLoader: typeof import("../components/SkeletonLoader.vue")['default']
+export const UserSettings: typeof import("../components/UserSettings.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -100,8 +130,18 @@ export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
 export const LazyAIInsightCard: LazyComponent<typeof import("../components/AIInsightCard.vue")['default']>
+export const LazyAIInsightGenerator: LazyComponent<typeof import("../components/AIInsightGenerator.vue")['default']>
+export const LazyAnomalyDetector: LazyComponent<typeof import("../components/AnomalyDetector.vue")['default']>
+export const LazyCustomerJourney: LazyComponent<typeof import("../components/CustomerJourney.vue")['default']>
+export const LazyDataExport: LazyComponent<typeof import("../components/DataExport.vue")['default']>
+export const LazyDraggableWidget: LazyComponent<typeof import("../components/DraggableWidget.vue")['default']>
 export const LazyExecutiveKPI: LazyComponent<typeof import("../components/ExecutiveKPI.vue")['default']>
+export const LazyKPIBuilder: LazyComponent<typeof import("../components/KPIBuilder.vue")['default']>
+export const LazyPredictiveChart: LazyComponent<typeof import("../components/PredictiveChart.vue")['default']>
 export const LazyRevenueChart: LazyComponent<typeof import("../components/RevenueChart.vue")['default']>
+export const LazyRiskManagement: LazyComponent<typeof import("../components/RiskManagement.vue")['default']>
+export const LazySkeletonLoader: LazyComponent<typeof import("../components/SkeletonLoader.vue")['default']>
+export const LazyUserSettings: LazyComponent<typeof import("../components/UserSettings.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

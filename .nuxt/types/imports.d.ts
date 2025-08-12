@@ -367,7 +367,7 @@ declare global {
   const useVirtualList: typeof import('../../node_modules/@vueuse/core')['useVirtualList']
   const useWakeLock: typeof import('../../node_modules/@vueuse/core')['useWakeLock']
   const useWebNotification: typeof import('../../node_modules/@vueuse/core')['useWebNotification']
-  const useWebSocket: typeof import('../../node_modules/@vueuse/core')['useWebSocket']
+  const useWebSocket: typeof import('../../composables/useWebSocket')['useWebSocket']
   const useWebWorker: typeof import('../../node_modules/@vueuse/core')['useWebWorker']
   const useWebWorkerFn: typeof import('../../node_modules/@vueuse/core')['useWebWorkerFn']
   const useWindowFocus: typeof import('../../node_modules/@vueuse/core')['useWindowFocus']
@@ -772,7 +772,7 @@ declare module 'vue' {
     readonly useVirtualList: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useVirtualList']>
     readonly useWakeLock: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWakeLock']>
     readonly useWebNotification: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWebNotification']>
-    readonly useWebSocket: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWebSocket']>
+    readonly useWebSocket: UnwrapRef<typeof import('../../composables/useWebSocket')['useWebSocket']>
     readonly useWebWorker: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWebWorker']>
     readonly useWebWorkerFn: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWebWorkerFn']>
     readonly useWindowFocus: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useWindowFocus']>
