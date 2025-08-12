@@ -165,6 +165,7 @@
                     variant="outlined"
                     color="primary"
                     class="font-weight-medium"
+                    @click="showAllInsights = true"
                   >
                     View All Insights
                   </v-btn>
@@ -235,6 +236,80 @@
         </v-row>
       </v-container>
     </v-main>
+    
+    <!-- All Insights Dialog -->
+    <v-dialog v-model="showAllInsights" max-width="1000">
+      <v-card>
+        <v-card-title class="text-h5 font-weight-bold d-flex align-center">
+          <v-icon class="mr-2" color="primary">mdi-brain</v-icon>
+          All AI Strategic Insights
+          <v-spacer />
+          <v-chip color="success" variant="tonal" size="small">
+            {{ allInsights.length }} Insights
+          </v-chip>
+        </v-card-title>
+        
+        <v-card-text style="max-height: 600px; overflow-y: auto;">
+          <v-row>
+            <v-col v-for="insight in allInsights" :key="insight.id" cols="12" md="6">
+              <v-card variant="outlined" class="mb-3">
+                <v-card-text>
+                  <div class="d-flex align-center mb-3">
+                    <v-icon :color="getInsightColor(insight.priority)" class="mr-2">
+                      {{ getCategoryIcon(insight.category) }}
+                    </v-icon>
+                    <div class="flex-grow-1">
+                      <h5 class="mb-1">{{ insight.title }}</h5>
+                      <div class="d-flex gap-2">
+                        <v-chip :color="getInsightColor(insight.priority)" size="x-small" variant="tonal">
+                          {{ insight.priority }}
+                        </v-chip>
+                        <v-chip color="info" size="x-small" variant="tonal">
+                          {{ insight.confidence }}% confidence
+                        </v-chip>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p class="text-body-2 mb-3">{{ insight.description }}</p>
+                  
+                  <div class="mb-3">
+                    <div class="d-flex justify-space-between text-caption mb-2">
+                      <span><strong>Impact:</strong> {{ insight.impact }}</span>
+                      <span><strong>Timeframe:</strong> {{ insight.timeframe }}</span>
+                    </div>
+                  </div>
+                  
+                  <v-expansion-panels variant="accordion" class="mb-2">
+                    <v-expansion-panel>
+                      <v-expansion-panel-title class="text-caption">
+                        View Recommendations ({{ insight.recommendations.length }})
+                      </v-expansion-panel-title>
+                      <v-expansion-panel-text>
+                        <v-list density="compact">
+                          <v-list-item v-for="rec in insight.recommendations" :key="rec">
+                            <template v-slot:prepend>
+                              <v-icon size="12">mdi-arrow-right</v-icon>
+                            </template>
+                            <v-list-item-title class="text-caption">{{ rec }}</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-expansion-panel-text>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        
+        <v-card-actions>
+          <v-spacer />
+          <v-btn @click="showAllInsights = false">Close</v-btn>
+          <v-btn color="primary" @click="exportInsights">Export Insights</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -248,6 +323,113 @@ const { isConnected } = useWebSocket()
 
 const toggleTheme = () => {
   theme.global.name.value = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'
+}
+
+const showAllInsights = ref(false)
+
+const allInsights = [
+  {
+    id: '1',
+    title: 'Revenue Acceleration Opportunity',
+    description: 'AI analysis indicates 18% revenue increase potential through strategic customer segmentation and targeted marketing campaigns.',
+    confidence: 87,
+    priority: 'high',
+    category: 'revenue',
+    impact: 'High',
+    timeframe: '3-6 months',
+    recommendations: [
+      'Implement advanced customer segmentation',
+      'Launch targeted marketing campaigns',
+      'Optimize pricing strategy for key segments'
+    ]
+  },
+  {
+    id: '2',
+    title: 'Market Expansion Signal',
+    description: 'Emerging market trends suggest optimal timing for European expansion within Q2, with 92% confidence based on market analysis.',
+    confidence: 92,
+    priority: 'high',
+    category: 'market',
+    impact: 'Very High',
+    timeframe: '2-4 months',
+    recommendations: [
+      'Conduct detailed market research for EU markets',
+      'Establish strategic partnerships in target regions',
+      'Develop localized product offerings'
+    ]
+  },
+  {
+    id: '3',
+    title: 'Operational Efficiency Gains',
+    description: 'Process automation opportunities identified that could reduce operational costs by 15% while improving service quality.',
+    confidence: 78,
+    priority: 'medium',
+    category: 'operations',
+    impact: 'Medium',
+    timeframe: '4-8 months',
+    recommendations: [
+      'Implement workflow automation tools',
+      'Redesign key business processes',
+      'Train staff on new automated systems'
+    ]
+  },
+  {
+    id: '4',
+    title: 'Customer Retention Enhancement',
+    description: 'Predictive model identifies at-risk customers with 85% accuracy, enabling proactive retention strategies.',
+    confidence: 85,
+    priority: 'medium',
+    category: 'customer',
+    impact: 'High',
+    timeframe: '1-3 months',
+    recommendations: [
+      'Deploy predictive churn model',
+      'Create personalized retention campaigns',
+      'Enhance customer success programs'
+    ]
+  },
+  {
+    id: '5',
+    title: 'Technology Infrastructure Optimization',
+    description: 'Cloud migration analysis shows potential for 25% cost reduction and improved scalability.',
+    confidence: 73,
+    priority: 'low',
+    category: 'technology',
+    impact: 'Medium',
+    timeframe: '6-12 months',
+    recommendations: [
+      'Plan phased cloud migration strategy',
+      'Optimize current infrastructure usage',
+      'Implement cloud-native solutions'
+    ]
+  }
+]
+
+const getInsightColor = (priority: string) => {
+  return priority === 'high' ? 'error' : priority === 'medium' ? 'warning' : 'info'
+}
+
+const getCategoryIcon = (category: string) => {
+  switch (category) {
+    case 'revenue': return 'mdi-currency-usd'
+    case 'market': return 'mdi-earth'
+    case 'operations': return 'mdi-cog'
+    case 'customer': return 'mdi-account-group'
+    case 'technology': return 'mdi-server'
+    default: return 'mdi-lightbulb'
+  }
+}
+
+const exportInsights = () => {
+  const content = `STRATOSAI AI INSIGHTS REPORT\n${'='.repeat(45)}\n\nGenerated: ${new Date().toLocaleString()}\n\n${allInsights.map(insight => `INSIGHT: ${insight.title}\nCONFIDENCE: ${insight.confidence}%\nPRIORITY: ${insight.priority.toUpperCase()}\nIMPACT: ${insight.impact}\nTIMEFRAME: ${insight.timeframe}\n\nDESCRIPTION:\n${insight.description}\n\nRECOMMENDATIONS:\n${insight.recommendations.map(rec => `• ${rec}`).join('\n')}\n\n${'─'.repeat(60)}\n\n`).join('')}Generated by StratosAI Command Center`
+  
+  const blob = new Blob([content], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `ai-insights-${Date.now()}.txt`
+  link.click()
+  URL.revokeObjectURL(url)
 }
 
 onMounted(() => {
