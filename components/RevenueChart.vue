@@ -1,20 +1,18 @@
 <template>
-  <v-card class="chart-container" elevation="4">
-    <v-card-title class="text-h6 font-weight-bold pb-4">
-      Revenue Analytics
-      <v-spacer />
+  <v-card class="chart-container" elevation="0">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Revenue Analytics</div>
+        <div class="text-caption mt-1" style="color: var(--text-muted)">Monthly performance vs forecast</div>
+      </div>
       <v-chip color="success" variant="tonal" size="small">
-        <v-icon start size="16">mdi-trending-up</v-icon>
-        +12.5% Growth
+        <v-icon start size="14">mdi-trending-up</v-icon>
+        +12.5%
       </v-chip>
-    </v-card-title>
-    
-    <v-card-text>
-      <Line
-        :data="chartData"
-        :options="chartOptions"
-        :height="300"
-      />
+    </div>
+
+    <v-card-text class="pt-2">
+      <Line :data="chartData" :options="chartOptions" :height="260" />
     </v-card-text>
   </v-card>
 </template>
@@ -22,27 +20,11 @@
 <script setup lang="ts">
 import { Line } from 'vue-chartjs'
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
+  Chart as ChartJS, CategoryScale, LinearScale,
+  PointElement, LineElement, Title, Tooltip, Legend, Filler
 } from 'chart.js'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
 const chartData = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
@@ -50,26 +32,27 @@ const chartData = {
     {
       label: 'Revenue',
       data: [2100000, 2300000, 2150000, 2650000, 2800000, 2847500],
-      borderColor: '#1A237E',
-      backgroundColor: 'rgba(26, 35, 126, 0.1)',
-      borderWidth: 3,
+      borderColor: '#3949AB',
+      backgroundColor: 'rgba(57, 73, 171, 0.08)',
+      borderWidth: 2,
       fill: true,
       tension: 0.4,
-      pointBackgroundColor: '#1A237E',
-      pointBorderColor: '#ffffff',
+      pointBackgroundColor: '#3949AB',
+      pointBorderColor: '#fff',
       pointBorderWidth: 2,
-      pointRadius: 6
+      pointRadius: 4,
     },
     {
       label: 'Forecast',
       data: [null, null, null, null, null, 2847500, 3200000],
       borderColor: '#FF6B35',
-      backgroundColor: 'rgba(255, 107, 53, 0.1)',
+      backgroundColor: 'rgba(255, 107, 53, 0.06)',
       borderWidth: 2,
-      borderDash: [5, 5],
+      borderDash: [6, 4],
       fill: false,
       tension: 0.4,
-      pointBackgroundColor: '#FF6B35'
+      pointBackgroundColor: '#FF6B35',
+      pointRadius: 4,
     }
   ]
 }
@@ -82,27 +65,23 @@ const chartOptions = {
       position: 'top' as const,
       labels: {
         usePointStyle: true,
-        font: {
-          family: 'Inter',
-          size: 12,
-          weight: '500'
-        }
+        pointStyleWidth: 8,
+        font: { family: 'Inter', size: 12 },
+        color: '#94A3B8',
+        padding: 16,
       }
     },
     tooltip: {
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
-      titleColor: '#ffffff',
-      bodyColor: '#ffffff',
-      borderColor: '#1A237E',
+      backgroundColor: '#1E293B',
+      titleColor: '#F1F5F9',
+      bodyColor: '#94A3B8',
+      borderColor: 'rgba(255,255,255,0.08)',
       borderWidth: 1,
+      padding: 12,
       callbacks: {
-        label: (context: any) => {
-          const value = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0
-          }).format(context.parsed.y)
-          return `${context.dataset.label}: ${value}`
+        label: (ctx: any) => {
+          const v = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact' }).format(ctx.parsed.y)
+          return `  ${ctx.dataset.label}: ${v}`
         }
       }
     }
@@ -110,34 +89,18 @@ const chartOptions = {
   scales: {
     y: {
       beginAtZero: false,
-      grid: {
-        color: 'rgba(0, 0, 0, 0.05)'
-      },
+      grid: { color: 'rgba(255,255,255,0.04)' },
+      border: { display: false },
       ticks: {
-        callback: (value: any) => {
-          return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            notation: 'compact'
-          }).format(value)
-        },
-        font: {
-          family: 'Inter',
-          size: 11
-        }
+        color: '#64748B',
+        font: { family: 'Inter', size: 11 },
+        callback: (v: any) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact' }).format(v)
       }
     },
     x: {
-      grid: {
-        display: false
-      },
-      ticks: {
-        font: {
-          family: 'Inter',
-          size: 11,
-          weight: '500'
-        }
-      }
+      grid: { display: false },
+      border: { display: false },
+      ticks: { color: '#64748B', font: { family: 'Inter', size: 11 } }
     }
   }
 }
