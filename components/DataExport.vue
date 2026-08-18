@@ -1,67 +1,67 @@
 <template>
-  <v-menu v-model="menuOpen" :close-on-content-click="false">
+  <v-menu v-model="menuOpen" :close-on-content-click="false" min-width="280">
     <template v-slot:activator="{ props }">
       <v-btn
         v-bind="props"
-        color="primary"
         variant="outlined"
-        prepend-icon="mdi-download"
-        class="font-weight-medium"
+        size="small"
+        prepend-icon="mdi-download-outline"
       >
-        Export Data
+        Export
       </v-btn>
     </template>
-    
-    <v-card min-width="300">
-      <v-card-title class="text-subtitle-1 font-weight-bold">Export Options</v-card-title>
-      
-      <v-card-text>
+
+    <v-card class="executive-card pa-1" elevation="0">
+      <v-card-title class="text-body-2 font-weight-semibold pa-3 pb-1">
+        Export Data
+      </v-card-title>
+
+      <v-card-text class="pa-3 pt-2">
         <v-select
           v-model="selectedFormat"
           :items="exportFormats"
           label="Format"
           variant="outlined"
           density="compact"
+          hide-details
           class="mb-3"
         />
-        
+
         <v-select
           v-model="selectedData"
           :items="dataTypes"
-          label="Data Type"
+          label="Data"
           variant="outlined"
           density="compact"
           multiple
-          chips
+          hide-details
           class="mb-3"
         />
-        
-        <v-row>
-          <v-col cols="6">
-            <v-text-field
-              v-model="dateRange.start"
-              label="Start Date"
-              type="date"
-              variant="outlined"
-              density="compact"
-            />
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              v-model="dateRange.end"
-              label="End Date"
-              type="date"
-              variant="outlined"
-              density="compact"
-            />
-          </v-col>
-        </v-row>
+
+        <div class="d-flex gap-2">
+          <v-text-field
+            v-model="dateRange.start"
+            label="From"
+            type="date"
+            variant="outlined"
+            density="compact"
+            hide-details
+          />
+          <v-text-field
+            v-model="dateRange.end"
+            label="To"
+            type="date"
+            variant="outlined"
+            density="compact"
+            hide-details
+          />
+        </div>
       </v-card-text>
-      
-      <v-card-actions>
-        <v-btn @click="menuOpen = false">Cancel</v-btn>
+
+      <v-card-actions class="pa-3 pt-0">
+        <v-btn variant="text" size="small" @click="menuOpen = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn color="primary" @click="exportData" :loading="isExporting">
+        <v-btn color="primary" variant="tonal" size="small" :loading="isExporting" @click="exportData">
           Export
         </v-btn>
       </v-card-actions>
@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 const menuOpen = ref(false)
-const selectedFormat = ref('xlsx')
+const selectedFormat = ref('csv')
 const selectedData = ref(['kpis', 'insights'])
 const isExporting = ref(false)
 const dateRange = ref({
@@ -80,136 +80,80 @@ const dateRange = ref({
 })
 
 const exportFormats = [
-  { title: 'Excel (.xlsx)', value: 'xlsx' },
-  { title: 'CSV (.csv)', value: 'csv' },
-  { title: 'PDF Report', value: 'pdf' },
-  { title: 'JSON Data', value: 'json' }
+  { title: 'CSV', value: 'csv' },
+  { title: 'JSON', value: 'json' },
+  { title: 'Excel (.xls)', value: 'xlsx' },
+  { title: 'Text Report', value: 'txt' },
 ]
 
 const dataTypes = [
   { title: 'KPI Metrics', value: 'kpis' },
   { title: 'AI Insights', value: 'insights' },
   { title: 'Revenue Data', value: 'revenue' },
-  { title: 'Customer Analytics', value: 'customers' },
-  { title: 'Risk Assessment', value: 'risks' }
+  { title: 'Risk Assessment', value: 'risks' },
 ]
 
 const exportData = async () => {
   isExporting.value = true
-  
   try {
-    if (selectedFormat.value === 'pdf') {
-      await generatePDF()
-    } else if (selectedFormat.value === 'csv') {
-      generateCSV()
-    } else if (selectedFormat.value === 'json') {
-      generateJSON()
-    } else {
-      // Excel format
-      generateExcel()
+    const handlers: Record<string, () => void> = {
+      csv: generateCSV,
+      json: generateJSON,
+      xlsx: generateExcel,
+      txt: generateReport,
     }
-  } catch (error) {
-    console.error('Export failed:', error)
+    handlers[selectedFormat.value]?.()
+  } finally {
+    isExporting.value = false
+    menuOpen.value = false
   }
-  
-  isExporting.value = false
-  menuOpen.value = false
-}
-
-const generatePDF = async () => {
-  // Simple PDF generation without external library
-  const content = generateReportContent()
-  const blob = new Blob([content], { type: 'text/plain' })
-  downloadFile(blob, `stratosai-report-${Date.now()}.txt`)
 }
 
 const generateCSV = () => {
-  const csvContent = [
+  const rows = [
     'Metric,Value,Change,Trend',
     'Monthly Revenue,$2847500,+12.5%,up',
     'Growth Rate,23.8%,+3.2%,up',
     'Active Customers,15847,-2.1%,down',
-    'Customer Retention,94.2%,+1.8%,up'
-  ].join('\n')
-  
-  const blob = new Blob([csvContent], { type: 'text/csv' })
-  downloadFile(blob, `stratosai-data-${Date.now()}.csv`)
+    'Customer Retention,94.2%,+1.8%,up',
+  ]
+  download(new Blob([rows.join('\n')], { type: 'text/csv' }), `export-${Date.now()}.csv`)
 }
 
 const generateJSON = () => {
   const data = {
-    timestamp: new Date().toISOString(),
+    generated: new Date().toISOString(),
     kpis: [
       { name: 'Monthly Revenue', value: 2847500, change: 12.5, trend: 'up' },
       { name: 'Growth Rate', value: 23.8, change: 3.2, trend: 'up' },
       { name: 'Active Customers', value: 15847, change: -2.1, trend: 'down' },
-      { name: 'Customer Retention', value: 94.2, change: 1.8, trend: 'up' }
-    ],
-    insights: [
-      { title: 'Revenue Growth', confidence: 87, priority: 'high' },
-      { title: 'Market Expansion', confidence: 92, priority: 'high' }
+      { name: 'Customer Retention', value: 94.2, change: 1.8, trend: 'up' },
     ]
   }
-  
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-  downloadFile(blob, `stratosai-export-${Date.now()}.json`)
+  download(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), `export-${Date.now()}.json`)
 }
 
 const generateExcel = () => {
-  // Simple tab-separated format that Excel can open
-  const content = [
-    'StratosAI Command Center Report',
-    `Generated: ${new Date().toLocaleString()}`,
-    '',
-    'KPI Metrics:',
+  const rows = [
     'Metric\tValue\tChange\tTrend',
     'Monthly Revenue\t$2,847,500\t+12.5%\tup',
     'Growth Rate\t23.8%\t+3.2%\tup',
     'Active Customers\t15,847\t-2.1%\tdown',
-    'Customer Retention\t94.2%\t+1.8%\tup'
-  ].join('\n')
-  
-  const blob = new Blob([content], { type: 'text/tab-separated-values' })
-  downloadFile(blob, `stratosai-report-${Date.now()}.xls`)
+    'Customer Retention\t94.2%\t+1.8%\tup',
+  ]
+  download(new Blob([rows.join('\n')], { type: 'text/tab-separated-values' }), `export-${Date.now()}.xls`)
 }
 
-const generateReportContent = () => {
-  return `STRATOSAI COMMAND CENTER REPORT
-${'='.repeat(40)}
-
-Generated: ${new Date().toLocaleString()}
-
-EXECUTIVE SUMMARY
-${'-'.repeat(20)}
-• Monthly Revenue: $2,847,500 (+12.5%)
-• Growth Rate: 23.8% (+3.2%)
-• Active Customers: 15,847 (-2.1%)
-• Customer Retention: 94.2% (+1.8%)
-
-AI INSIGHTS
-${'-'.repeat(20)}
-• Revenue Acceleration Opportunity (87% confidence)
-• Market Expansion Signal (92% confidence)
-
-OPERATIONAL METRICS
-${'-'.repeat(20)}
-• System Uptime: 99.8%
-• Response Time: 145ms
-• Error Rate: 0.02%
-• Throughput: 1,250 req/min
-
-Report generated by StratosAI Command Center
-`
+const generateReport = () => {
+  const content = `StratosAI Report — ${new Date().toLocaleString()}\n\n` +
+    `Revenue: $2,847,500 (+12.5%)\nGrowth: 23.8% (+3.2%)\nCustomers: 15,847 (-2.1%)\nRetention: 94.2% (+1.8%)`
+  download(new Blob([content], { type: 'text/plain' }), `report-${Date.now()}.txt`)
 }
 
-const downloadFile = (blob: Blob, filename: string) => {
+const download = (blob: Blob, filename: string) => {
   const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = filename
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  const a = document.createElement('a')
+  a.href = url; a.download = filename; a.click()
   URL.revokeObjectURL(url)
 }
 </script>

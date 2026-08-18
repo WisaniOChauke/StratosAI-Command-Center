@@ -1,106 +1,90 @@
 <template>
-  <div class="skeleton-container">
-    <div v-if="type === 'kpi'" class="skeleton-kpi">
-      <div class="skeleton-header">
-        <div class="skeleton-line w-60"></div>
-        <div class="skeleton-circle"></div>
+  <div class="skeleton-wrap">
+    <!-- KPI -->
+    <template v-if="type === 'kpi'">
+      <div class="d-flex justify-space-between align-center mb-4">
+        <div class="sk sk-icon" />
+        <div class="sk" style="width: 48px; height: 20px; border-radius: 6px;" />
       </div>
-      <div class="skeleton-value"></div>
-      <div class="skeleton-line w-40"></div>
-    </div>
-    
-    <div v-else-if="type === 'chart'" class="skeleton-chart">
-      <div class="skeleton-line w-80 mb-4"></div>
-      <div class="skeleton-chart-area">
-        <div v-for="i in 6" :key="i" class="skeleton-bar" :style="{ height: `${Math.random() * 60 + 20}%` }"></div>
+      <div class="sk sk-value mb-2" />
+      <div class="sk" style="width: 55%; height: 13px;" />
+    </template>
+
+    <!-- Chart -->
+    <template v-else-if="type === 'chart'">
+      <div class="d-flex justify-space-between align-center mb-4">
+        <div class="sk" style="width: 140px; height: 16px;" />
+        <div class="sk" style="width: 64px; height: 22px; border-radius: 6px;" />
       </div>
-    </div>
-    
-    <div v-else-if="type === 'insight'" class="skeleton-insight">
-      <div class="skeleton-header">
-        <div class="skeleton-circle"></div>
-        <div class="skeleton-line w-70"></div>
+      <div class="sk-chart-bars">
+        <div v-for="i in 6" :key="i" class="sk sk-bar" :style="{ height: (30 + i * 10) + '%' }" />
       </div>
-      <div class="skeleton-line w-100 mb-2"></div>
-      <div class="skeleton-line w-80 mb-2"></div>
-      <div class="skeleton-line w-60"></div>
-    </div>
-    
-    <div v-else class="skeleton-default">
-      <div class="skeleton-line w-80 mb-3"></div>
-      <div class="skeleton-line w-60 mb-3"></div>
-      <div class="skeleton-line w-90"></div>
-    </div>
+    </template>
+
+    <!-- Insight -->
+    <template v-else-if="type === 'insight'">
+      <div class="d-flex gap-2 align-center mb-3">
+        <div class="sk" style="width: 48px; height: 18px; border-radius: 6px;" />
+        <div class="sk" style="width: 64px; height: 18px; border-radius: 6px;" />
+      </div>
+      <div class="sk" style="width: 75%; height: 14px;" />
+      <div class="sk mt-2" style="width: 100%; height: 12px;" />
+      <div class="sk mt-2" style="width: 85%; height: 12px;" />
+      <div class="sk mt-3" style="width: 100%; height: 3px; border-radius: 2px;" />
+    </template>
+
+    <!-- Default -->
+    <template v-else>
+      <div class="sk mb-3" style="width: 80%; height: 16px;" />
+      <div class="sk mb-3" style="width: 60%; height: 14px;" />
+      <div class="sk" style="width: 90%; height: 14px;" />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  type?: 'kpi' | 'chart' | 'insight' | 'default'
-}>()
+defineProps<{ type?: 'kpi' | 'chart' | 'insight' | 'default' }>()
 </script>
 
 <style scoped>
-.skeleton-container {
-  padding: 20px;
-}
+.skeleton-wrap { padding: 20px; }
 
-.skeleton-line, .skeleton-circle, .skeleton-value, .skeleton-bar {
-  background: linear-gradient(90deg, 
-    rgba(255, 255, 255, 0.1) 25%, 
-    rgba(255, 255, 255, 0.2) 50%, 
-    rgba(255, 255, 255, 0.1) 75%
+.sk {
+  background: linear-gradient(
+    90deg,
+    var(--border-subtle) 25%,
+    var(--border-medium) 50%,
+    var(--border-subtle) 75%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 6px;
+  display: block;
 }
 
-.skeleton-line {
-  height: 16px;
-  margin-bottom: 8px;
+.sk-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
 }
 
-.skeleton-circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-}
-
-.skeleton-value {
-  height: 32px;
+.sk-value {
   width: 120px;
-  margin: 16px 0;
+  height: 32px;
 }
 
-.skeleton-header {
+.sk-chart-bars {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.skeleton-chart-area {
-  display: flex;
-  align-items: end;
+  align-items: flex-end;
   gap: 8px;
-  height: 200px;
+  height: 180px;
 }
 
-.skeleton-bar {
+.sk-bar {
   flex: 1;
-  min-height: 20px;
+  min-height: 16px;
+  border-radius: 4px 4px 0 0;
 }
-
-.w-40 { width: 40%; }
-.w-60 { width: 60%; }
-.w-70 { width: 70%; }
-.w-80 { width: 80%; }
-.w-90 { width: 90%; }
-.w-100 { width: 100%; }
-.mb-2 { margin-bottom: 8px; }
-.mb-3 { margin-bottom: 12px; }
-.mb-4 { margin-bottom: 16px; }
 
 @keyframes shimmer {
   0% { background-position: -200% 0; }

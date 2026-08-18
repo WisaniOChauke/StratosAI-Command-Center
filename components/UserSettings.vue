@@ -1,99 +1,111 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600">
+  <v-dialog v-model="dialog" max-width="520">
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" icon="mdi-cog" variant="text" />
+      <v-btn v-bind="props" icon="mdi-cog-outline" variant="text" size="small" />
     </template>
-    
-    <v-card>
-      <v-card-title class="text-h6 font-weight-bold">Dashboard Settings</v-card-title>
-      
-      <v-card-text>
-        <v-tabs v-model="activeTab" class="mb-4">
+
+    <v-card class="executive-card pa-2" elevation="0">
+      <v-card-title class="d-flex align-center justify-space-between pa-4 pb-2">
+        <span class="text-h6 font-weight-semibold">Settings</span>
+        <v-btn icon="mdi-close" variant="text" size="small" @click="dialog = false" />
+      </v-card-title>
+
+      <v-card-text class="pa-4 pt-2">
+        <v-tabs v-model="activeTab" density="compact" class="mb-4">
           <v-tab value="display">Display</v-tab>
           <v-tab value="data">Data</v-tab>
-          <v-tab value="notifications">Alerts</v-tab>
+          <v-tab value="alerts">Alerts</v-tab>
         </v-tabs>
-        
+
         <v-window v-model="activeTab">
+          <!-- Display -->
           <v-window-item value="display">
+            <div class="section-label">Appearance</div>
             <v-switch
               v-model="settings.darkMode"
-              label="Dark Mode"
+              label="Dark mode"
               color="primary"
+              density="compact"
+              hide-details
               class="mb-3"
             />
-            
+            <div class="section-label mt-4">Refresh Interval</div>
             <v-select
               v-model="settings.refreshInterval"
               :items="refreshOptions"
-              label="Auto Refresh"
               variant="outlined"
               density="compact"
+              hide-details
               class="mb-3"
             />
-            
+            <div class="section-label mt-4">Default View</div>
             <v-select
               v-model="settings.defaultView"
               :items="viewOptions"
-              label="Default View"
               variant="outlined"
               density="compact"
+              hide-details
             />
           </v-window-item>
-          
+
+          <!-- Data -->
           <v-window-item value="data">
+            <div class="section-label">Visible KPIs</div>
             <v-select
               v-model="settings.kpiMetrics"
               :items="kpiOptions"
-              label="Visible KPIs"
               variant="outlined"
               density="compact"
               multiple
               chips
+              hide-details
               class="mb-3"
             />
-            
+            <div class="section-label mt-4">Default Chart</div>
             <v-select
               v-model="settings.chartType"
               :items="chartOptions"
-              label="Default Chart Type"
               variant="outlined"
               density="compact"
+              hide-details
             />
           </v-window-item>
-          
-          <v-window-item value="notifications">
+
+          <!-- Alerts -->
+          <v-window-item value="alerts">
+            <div class="section-label">Notifications</div>
             <v-switch
               v-model="settings.emailAlerts"
-              label="Email Alerts"
+              label="Email alerts"
               color="primary"
-              class="mb-3"
+              density="compact"
+              hide-details
+              class="mb-2"
             />
-            
             <v-switch
               v-model="settings.pushNotifications"
-              label="Push Notifications"
+              label="Push notifications"
               color="primary"
-              class="mb-3"
+              density="compact"
+              hide-details
+              class="mb-4"
             />
-            
+            <div class="section-label">Alert Threshold</div>
             <v-slider
               v-model="settings.alertThreshold"
-              label="Alert Threshold"
-              min="0"
-              max="100"
-              step="5"
+              min="0" max="100" step="5"
               thumb-label
-              class="mb-3"
+              color="primary"
+              hide-details
             />
           </v-window-item>
         </v-window>
       </v-card-text>
-      
-      <v-card-actions>
+
+      <v-card-actions class="pa-4 pt-0">
         <v-spacer />
-        <v-btn @click="dialog = false">Cancel</v-btn>
-        <v-btn color="primary" @click="saveSettings">Save</v-btn>
+        <v-btn variant="text" size="small" @click="dialog = false">Cancel</v-btn>
+        <v-btn color="primary" variant="tonal" size="small" @click="saveSettings">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -118,38 +130,35 @@ const refreshOptions = [
   { title: '15 seconds', value: 15 },
   { title: '30 seconds', value: 30 },
   { title: '1 minute', value: 60 },
-  { title: '5 minutes', value: 300 }
+  { title: '5 minutes', value: 300 },
 ]
 
 const viewOptions = [
   { title: 'Executive Summary', value: 'executive' },
   { title: 'Detailed Analytics', value: 'detailed' },
-  { title: 'Risk Dashboard', value: 'risk' }
+  { title: 'Risk Dashboard', value: 'risk' },
 ]
 
 const kpiOptions = [
   { title: 'Revenue', value: 'revenue' },
   { title: 'Growth Rate', value: 'growth' },
   { title: 'Customers', value: 'customers' },
-  { title: 'Retention', value: 'retention' }
+  { title: 'Retention', value: 'retention' },
 ]
 
 const chartOptions = [
-  { title: 'Line Chart', value: 'line' },
-  { title: 'Bar Chart', value: 'bar' },
-  { title: 'Area Chart', value: 'area' }
+  { title: 'Line', value: 'line' },
+  { title: 'Bar', value: 'bar' },
+  { title: 'Area', value: 'area' },
 ]
 
 const saveSettings = () => {
-  // Save to localStorage or API
   localStorage.setItem('stratosai-settings', JSON.stringify(settings.value))
   dialog.value = false
 }
 
 onMounted(() => {
   const saved = localStorage.getItem('stratosai-settings')
-  if (saved) {
-    settings.value = { ...settings.value, ...JSON.parse(saved) }
-  }
+  if (saved) settings.value = { ...settings.value, ...JSON.parse(saved) }
 })
 </script>
