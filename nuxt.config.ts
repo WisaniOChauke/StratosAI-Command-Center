@@ -5,8 +5,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    '@nuxtjs/google-fonts',
-    '@vite-pwa/nuxt'
+    '@nuxtjs/google-fonts'
   ],
   css: [
     'vuetify/lib/styles/main.sass',
@@ -36,26 +35,4 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: false
   },
-  pwa: {
-    registerType: 'autoUpdate',
-    workbox: {
-      navigateFallback: '/',
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}']
-    },
-    manifest: {
-      name: 'StratosAI Command Center',
-      short_name: 'StratosAI',
-      description: 'Premium AI-Powered Executive Dashboard',
-      theme_color: '#0D47A1',
-      background_color: '#0F172A',
-      display: 'standalone',
-      icons: [
-        {
-          src: 'icon-192x192.png',
-          sizes: '192x192',
-          type: 'image/png'
-        }
-      ]
-    }
-  }
 })
